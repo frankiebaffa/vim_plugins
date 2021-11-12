@@ -86,3 +86,15 @@
 [submodule "fannheyward/start/coc-texlab"]
 	path = fannheyward/start/coc-texlab
 	url = https://github.com/fannheyward/coc-texlab
+[submodule "tpope/start/vim-vinegar"]
+	path = tpope/start/vim-vinegar
+	url = https://github.com/tpope/vim-vinegar
+[submodule "vim-airline/start/vim-airline"]
+	path = vim-airline/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "vim-airline/start/vim-airline-themes"]
+	path = vim-airline/start/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes
+[submodule "Yggdroot/start/indentLine"]
+	path = Yggdroot/start/indentLine
+	url = https://github.com/Yggdroot/indentLine
