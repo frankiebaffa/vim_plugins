@@ -101,3 +101,9 @@
 [submodule "tpope/start/vim-dadbod"]
 	path = tpope/start/vim-dadbod
 	url = https://github.com/tpope/vim-dadbod
+[submodule "kristijanhusak/start/vim-dadbod-ui"]
+	path = kristijanhusak/start/vim-dadbod-ui
+	url = https://github.com/kristijanhusak/vim-dadbod-ui
+[submodule "kristijanhusak/start/vim-dadbod-completion"]
+	path = kristijanhusak/start/vim-dadbod-completion
+	url = https://github.com/kristijanhusak/vim-dadbod-completion
