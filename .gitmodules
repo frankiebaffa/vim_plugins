@@ -62,3 +62,27 @@
 [submodule "neoclide/start/coc-tsserver"]
 	path = neoclide/start/coc-tsserver
 	url = https://github.com/neoclide/coc-tsserver
+[submodule "neoclide/start/coc-java"]
+	path = neoclide/start/coc-java
+	url = https://github.com/neoclide/coc-java
+[submodule "neoclide/start/coc-json"]
+	path = neoclide/start/coc-json
+	url = https://github.com/neoclide/coc-json
+[submodule "neoclide/start/coc-python"]
+	path = neoclide/start/coc-python
+	url = https://github.com/neoclide/coc-python
+[submodule "neoclide/start/coc-css"]
+	path = neoclide/start/coc-css
+	url = https://github.com/neoclide/coc-css
+[submodule "josa42/start/coc-sh"]
+	path = josa42/start/coc-sh
+	url = https://github.com/josa42/coc-sh
+[submodule "neoclide/start/coc-html"]
+	path = neoclide/start/coc-html
+	url = https://github.com/neoclide/coc-html
+[submodule "coc-extensions/start/coc-powershell"]
+	path = coc-extensions/start/coc-powershell
+	url = https://github.com/coc-extensions/coc-powershell
+[submodule "fannheyward/start/coc-texlab"]
+	path = fannheyward/start/coc-texlab
+	url = https://github.com/fannheyward/coc-texlab
