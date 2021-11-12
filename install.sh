@@ -76,3 +76,9 @@ if [ "$1" == "coc-texlab" ] || [ "$1" == "all" ]; then
 		yarn install --frozen-lockfile &&
 		cd $SCRIPT_DIR
 fi
+if [ "$1" == "vim-dadbod-completion" ] || [ "$1" == "all" ]; then
+	# install vim-dadbod-completion
+	cd ./kristijanhusak/start/vim-dadbod-completion &&
+		yarn install --frozen-lockfile &&
+		cd $SCRIPT_DIR
+fi
