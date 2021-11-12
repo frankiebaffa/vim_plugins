@@ -8,4 +8,6 @@ cd $SCRIPT_DIR
 cd ./neoclide/start/coc-neco && yarn install --frozen-lockfile && cd $SCRIPT_DIR
 # install rust-analyzer
 cd ./fannheyward/start/coc-rust-analyzer && yarn install --frozen-lockfile && cd $SCRIPT_DIR
+# install tsserver
+cd ./neoclide/start/coc-tsserver && yarn install --frozen-lockfile && cd $SCRIPT_DIR
 
