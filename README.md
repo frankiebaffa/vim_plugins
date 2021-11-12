@@ -11,14 +11,8 @@ If you are using version 8+, then just clone the repository into vim's built in 
 ```bash
 mkdir ~/.vim/pack
 git clone http://github.com/frankiebaffa/vim_plugins ~/.vim/pack
+cd ~/.vim/pack
+./update.sh
+./install.sh
 ```
-
-### FZF
-
-FZF requires a command to be run. Open vim and execute:
-
-```vim
-fzf#install()
-```
-
 
