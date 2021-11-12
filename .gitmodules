@@ -1,0 +1,61 @@
+[submodule "tomasr/start/molokai"]
+	path = tomasr/start/molokai
+	url = https://github.com/tomasr/molokai
+[submodule "neoclide/start/coc.nvim"]
+	path = neoclide/start/coc.nvim
+	url = https://github.com/neoclide/coc.nvim
+	branch = release
+[submodule "neoclide/start/coc-neco"]
+	path = neoclide/start/coc-neco
+	url = https://github.com/neoclide/coc-neco
+[submodule "fannheyward/start/coc-rust-analyzer"]
+	path = fannheyward/start/coc-rust-analyzer
+	url = https://github.com/fannheyward/coc-rust-analyzer
+[submodule "rstacruz/start/vim-coc-settings"]
+	path = rstacruz/start/vim-coc-settings
+	url = https://github.com/rstacruz/vim-coc-settings
+[submodule "Shougo/start/neco-vim"]
+	path = Shougo/start/neco-vim
+	url = https://github.com/Shougo/neco-vim
+[submodule "andlrc/start/rpgle.vim"]
+	path = andlrc/start/rpgle.vim
+	url = https://github.com/andlrc/rpgle.vim
+[submodule "liuchengxu/start/graphviz.vim"]
+	path = liuchengxu/start/graphviz.vim
+	url = https://github.com/liuchengxu/graphviz.vim
+[submodule "pangloss/start/vim-javascript"]
+	path = pangloss/start/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
+[submodule "sheerun/start/vim-polyglot"]
+	path = sheerun/start/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot
+[submodule "wannesm/start/wmgraphviz.vim"]
+	path = wannesm/start/wmgraphviz.vim
+	url = https://github.com/wannesm/wmgraphviz.vim
+[submodule "frankiebaffa/start/Vim-Folddiff"]
+	path = frankiebaffa/start/Vim-Folddiff
+	url = https://github.com/frankiebaffa/Vim-Folddiff
+[submodule "frankiebaffa/start/vim-tasks"]
+	path = frankiebaffa/start/vim-tasks
+	url = https://github.com/frankiebaffa/vim-tasks
+[submodule "junegunn/start/fzf"]
+	path = junegunn/start/fzf
+	url = https://github.com/junegunn/fzf
+[submodule "qpkorr/start/vim-bufkill"]
+	path = qpkorr/start/vim-bufkill
+	url = https://github.com/qpkorr/vim-bufkill
+[submodule "tpope/start/vim-fugitive"]
+	path = tpope/start/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "tpope/start/vim-surround"]
+	path = tpope/start/vim-surround
+	url = https://github.com/tpope/vim-surround
+[submodule "tpope/start/vim-repeat"]
+	path = tpope/start/vim-repeat
+	url = https://github.com/tpope/vim-repeat
+[submodule "vim-scripts/start/ParseJSON"]
+	path = vim-scripts/start/ParseJSON
+	url = https://github.com/vim-scripts/ParseJSON
+[submodule "voldikss/start/vim-floaterm"]
+	path = voldikss/start/vim-floaterm
+	url = https://github.com/voldikss/vim-floaterm
