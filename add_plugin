@@ -16,9 +16,18 @@ if [ ! -z "$3" ]; then
 	echo "Only two arguments are required"
 	exit 1
 fi
-# add plugin
-cd $SCRIPT_DIR &&
+# move to script directory
+cd $SCRIPT_DIR
+# set plugin vars
+GIT_REPO="$1/$2"
+PLUGIN_PATH="$1/start"
+PLUGIN_DIR="$PLUGIN_PATH/$2"
+if [[ -d "$PLUGIN_PATH/.git" ]]; then
+	echo "The repo for plugin \"$GIT_REPO\" may alredy be a submodule";
+else
+	echo "Adding submodule \"$GIT_REPO\""
 	mkdir -p "$1/start" &&
-	git submodule add "https://github.com/$1/$2" "$1/start/$2" &&
-	cd $CURR_DIR
-exit 0
+		git submodule add "https://github.com/$GIT_REPO" "$PLUGIN_DIR" &&
+		echo "Complete"
+fi
+cd "$CURR_DIR"
