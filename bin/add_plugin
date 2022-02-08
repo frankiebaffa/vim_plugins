@@ -3,6 +3,7 @@
 CURR_DIR=$(pwd)
 # get script dir
 SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+PLUGINS_DIR="$SCRIPT_DIR/.."
 # check args
 if [ -z "$1" ]; then
 	echo "Please include the plugin author's github username as first argument"
@@ -17,7 +18,7 @@ if [ ! -z "$3" ]; then
 	exit 1
 fi
 # move to script directory
-cd $SCRIPT_DIR
+cd "$PLUGINS_DIR"
 # set plugin vars
 GIT_REPO="$1/$2"
 PLUGIN_PATH="$1/start"

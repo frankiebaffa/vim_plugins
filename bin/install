@@ -3,13 +3,14 @@
 CURR_DIR=$(pwd)
 # get script dir
 SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
+PLUGINS_DIR="$SCRIPT_DIR/.."
 # check args
 if [ -z "$1" ]; then
 	echo "Please include the name of the lang server to install, if all then include \"all\"";
 	exit 1;
 fi
 # goto script dir
-cd $SCRIPT_DIR
+cd "$PLUGINS_DIR"
 # process ls.csv
 lines="$(cat ./ls.csv)"
 newline="\n"
@@ -41,7 +42,7 @@ for line in ${line_arr[@]}; do
 		echo "Installing \"$name\" from \"$path\"";
 		cd "$path" &&
 			yarn install --frozen-lockfile &&
-			cd "$SCRIPT_DIR"
+			cd "$PLUGINS_DIR"
 		echo "Complete"
 	fi
 done

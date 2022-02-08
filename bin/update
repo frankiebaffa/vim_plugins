@@ -3,7 +3,8 @@
 CURR_DIR=$(pwd)
 # get script dir
 SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
-cd $SCRIPT_DIR
+PLUGINS_DIR="$SCRIPT_DIR/.."
+cd $PLUGINS_DIR
 # update submodules
 git submodule update --init --recursive --remote
 # return
