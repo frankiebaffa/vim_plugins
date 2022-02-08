@@ -10,75 +10,40 @@ if [ -z "$1" ]; then
 fi
 # goto script dir
 cd $SCRIPT_DIR
-if [ "$1" == "coc-neco" ] || [ "$1" == "all" ]; then
-	# install coc-neco
-	cd ./neoclide/start/coc-neco &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-rust-analyzer" ] || [ "$1" == "all" ]; then
-	# install coc-rust-analyzer
-	cd ./fannheyward/start/coc-rust-analyzer &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-tsserver" ] || [ "$1" == "all" ]; then
-	# install coc-tsserver
-	cd ./neoclide/start/coc-tsserver &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-tsserver" ] || [ "$1" == "all" ]; then
-	# install coc-java
-	cd ./neoclide/start/coc-tsserver &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-json" ] || [ "$1" == "all" ]; then
-	# install coc-json
-	cd ./neoclide/start/coc-json &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-python" ] || [ "$1" == "all" ]; then
-	# install coc-python
-	cd ./neoclide/start/coc-python &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-css" ] || [ "$1" == "all" ]; then
-	# install coc-css
-	cd ./neoclide/start/coc-css &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-sh" ] || [ "$1" == "all" ]; then
-	# install coc-sh
-	cd ./josa42/start/coc-sh &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-html" ] || [ "$1" == "all" ]; then
-	# install coc-html
-	cd ./neoclide/start/coc-html &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-powershell" ] || [ "$1" == "all" ]; then
-	# install coc-powershell
-	cd ./coc-extensions/start/coc-powershell &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "coc-texlab" ] || [ "$1" == "all" ]; then
-	# install coc-texlab
-	cd ./fannheyward/start/coc-texlab &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
-if [ "$1" == "vim-dadbod-completion" ] || [ "$1" == "all" ]; then
-	# install vim-dadbod-completion
-	cd ./kristijanhusak/start/vim-dadbod-completion &&
-		yarn install --frozen-lockfile &&
-		cd $SCRIPT_DIR
-fi
+# process ls.csv
+lines="$(cat ./ls.csv)"
+newline="\n"
+lines=$lines$newline
+# split lines on newline and add to array
+line_arr=()
+while [[ $lines ]]; do
+	line_arr+=( "${lines%%"$newline"*}" )
+	lines=${lines#*"$newline"}
+done
+skip=$((1))
+for line in ${line_arr[@]}; do
+	if [ $skip -eq 1 ]; then
+		skip=$((0))
+		continue
+	fi
+	comma=","
+	line=$line$comma
+	# split lines on comma and add to array
+	sub_arr=()
+	while [[ $line ]]; do
+		sub_arr+=( "${line%%"$comma"*}" )
+		line=${line#*"$comma"}
+	done
+	name=${sub_arr[0]}
+	path=${sub_arr[1]}
+	# processing complete, perform installation tasks
+	if [ "$1" == "$name" ] || [ "$1" == "all" ]; then
+		echo "Installing \"$name\" from \"$path\"";
+		cd "$path" &&
+			yarn install --frozen-lockfile &&
+			cd "$SCRIPT_DIR"
+		echo "Complete"
+	fi
+done
+# return to dir
+cd "$CURR_DIR"

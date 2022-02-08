@@ -12,24 +12,33 @@ if [ -z "$2" ]; then
 	echo "Please include the plugin name as the second argument"
 	exit 1
 fi
-if [ ! -z "$3" ]; then
-	echo "Only two arguments are required"
+if [ -z "$3" ]; then
+	echo "Please include the desired reference name for the plugin as the third argument"
+	exit 1
+fi
+if [ ! -z "$4" ]; then
+	echo "Only three arguments are required"
 	exit 1
 fi
 # prepare script to insert
-INSTALL=$(cat << EOM
-if [ "\$1" == "$2" ] || [ "\$1" == "all" ]; then
-	# install $2
-	cd ./$1/start/$2 &&
-		yarn install --frozen-lockfile &&
-		cd \$SCRIPT_DIR
-fi
-EOM
-)
-# add language server plugin
-cd $SCRIPT_DIR &&
+PATH="./$1/start/$2"
+if [[ -f "$PATH/.git" ]]; then
+	echo "The repo for language server \"$2\" may already be added";
+else
+	echo "Creating dir and cloning repo"
 	mkdir -p "$1/start" &&
-	git submodule add "https://github.com/$1/$2" "$1/start/$2" &&
-	echo "$INSTALL" >> ./install.sh &&
-	cd $CURR_DIR
-exit 0
+		git submodule add "https://github.com/$1/$2" "$1/start/$2" &&
+		echo "Complete"
+fi
+INSTALL_LINE="$3,$PATH"
+INSTALL_FILE="./ls.csv"
+HAS_LINE=$(egrep "$INSTALL_LINE" $INSTALL_FILE)
+if [ ! -z "$HAS_LINE" ]; then
+	echo "Plugin definition \"$INSTALL_LINE\" already exists in \"$INSTALL_FILE\""
+else
+	echo "Adding line \"$INSTALL_LINE\" to \"$INSTALL_FILE\""
+	echo "$INSTALL_LINE" >> $INSTALL_FILE &&
+		echo "Complete"
+fi
+# return to dir
+cd "$CURR_DIR"
