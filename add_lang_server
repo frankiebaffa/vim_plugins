@@ -21,8 +21,8 @@ if [ ! -z "$4" ]; then
 	exit 1
 fi
 # prepare script to insert
-PATH="./$1/start/$2"
-if [[ -f "$PATH/.git" ]]; then
+PLUGIN_PATH="./$1/start/$2"
+if [[ -f "$PLUGIN_PATH/.git" ]]; then
 	echo "The repo for language server \"$2\" may already be added";
 else
 	echo "Creating dir and cloning repo"
@@ -30,9 +30,9 @@ else
 		git submodule add "https://github.com/$1/$2" "$1/start/$2" &&
 		echo "Complete"
 fi
-INSTALL_LINE="$3,$PATH"
+INSTALL_LINE="$3,$PLUGIN_PATH"
 INSTALL_FILE="./ls.csv"
-HAS_LINE=$(egrep "$INSTALL_LINE" $INSTALL_FILE)
+HAS_LINE=$(grep "$INSTALL_LINE" $INSTALL_FILE)
 if [ ! -z "$HAS_LINE" ]; then
 	echo "Plugin definition \"$INSTALL_LINE\" already exists in \"$INSTALL_FILE\""
 else
