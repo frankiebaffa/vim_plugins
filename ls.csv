@@ -9,3 +9,4 @@ html,./neoclide/start/coc-html
 powershell,./coc-extensions/start/coc-powershell
 latex,./fannheyward/start/coc-texlab
 dadbod,./kristijanhusak/start/vim-dadbod-completion
+coc-svelte,./coc-extensions/start/coc-svelte
