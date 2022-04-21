@@ -89,9 +89,6 @@
 [submodule "tpope/start/vim-vinegar"]
 	path = tpope/start/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar
-[submodule "Yggdroot/start/indentLine"]
-	path = Yggdroot/start/indentLine
-	url = https://github.com/Yggdroot/indentLine
 [submodule "tpope/start/vim-dadbod"]
 	path = tpope/start/vim-dadbod
 	url = https://github.com/tpope/vim-dadbod
