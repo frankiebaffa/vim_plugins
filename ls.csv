@@ -10,3 +10,4 @@ powershell,./coc-extensions/start/coc-powershell
 latex,./fannheyward/start/coc-texlab
 dadbod,./kristijanhusak/start/vim-dadbod-completion
 json,./neoclide/start/coc-json
+coc-svelte,./coc-extensions/start/coc-svelte

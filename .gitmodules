@@ -89,15 +89,6 @@
 [submodule "tpope/start/vim-vinegar"]
 	path = tpope/start/vim-vinegar
 	url = https://github.com/tpope/vim-vinegar
-[submodule "vim-airline/start/vim-airline"]
-	path = vim-airline/start/vim-airline
-	url = https://github.com/vim-airline/vim-airline
-[submodule "vim-airline/start/vim-airline-themes"]
-	path = vim-airline/start/vim-airline-themes
-	url = https://github.com/vim-airline/vim-airline-themes
-[submodule "Yggdroot/start/indentLine"]
-	path = Yggdroot/start/indentLine
-	url = https://github.com/Yggdroot/indentLine
 [submodule "tpope/start/vim-dadbod"]
 	path = tpope/start/vim-dadbod
 	url = https://github.com/tpope/vim-dadbod
@@ -107,3 +98,6 @@
 [submodule "kristijanhusak/start/vim-dadbod-completion"]
 	path = kristijanhusak/start/vim-dadbod-completion
 	url = https://github.com/kristijanhusak/vim-dadbod-completion
+[submodule "coc-extensions/start/coc-svelte"]
+	path = coc-extensions/start/coc-svelte
+	url = https://github.com/coc-extensions/coc-svelte
