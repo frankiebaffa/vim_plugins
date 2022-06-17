@@ -101,3 +101,9 @@
 [submodule "coc-extensions/start/coc-svelte"]
 	path = coc-extensions/start/coc-svelte
 	url = https://github.com/coc-extensions/coc-svelte
+[submodule "vim-airline/start/vim-airline"]
+	path = vim-airline/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+[submodule "vim-airline-themes/start/vim-airline-themes"]
+	path = vim-airline-themes/start/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes
