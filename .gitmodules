@@ -1,6 +1,3 @@
-[submodule "tomasr/start/molokai"]
-	path = tomasr/start/molokai
-	url = https://github.com/tomasr/molokai
 [submodule "neoclide/start/coc.nvim"]
 	path = neoclide/start/coc.nvim
 	url = https://github.com/neoclide/coc.nvim
