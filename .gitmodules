@@ -106,3 +106,6 @@
 	path = jeffkreeftmeijer/start/vim-dim
 	url = https://github.com/jeffkreeftmeijer/vim-dim
 	branch = 1.1.0
+[submodule "vim-airline-themes/start/vim-airline-themes"]
+	path = vim-airline-themes/start/vim-airline-themes
+	url = https://github.com/vim-airline/vim-airline-themes
