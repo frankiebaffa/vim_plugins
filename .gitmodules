@@ -74,6 +74,7 @@
 [submodule "josa42/start/coc-sh"]
 	path = josa42/start/coc-sh
 	url = https://github.com/josa42/coc-sh
+	branch = v0.7.0
 [submodule "neoclide/start/coc-html"]
 	path = neoclide/start/coc-html
 	url = https://github.com/neoclide/coc-html
