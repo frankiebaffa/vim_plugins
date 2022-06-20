@@ -38,6 +38,7 @@
 [submodule "junegunn/start/fzf"]
 	path = junegunn/start/fzf
 	url = https://github.com/junegunn/fzf
+	branch = 0.30.0
 [submodule "qpkorr/start/vim-bufkill"]
 	path = qpkorr/start/vim-bufkill
 	url = https://github.com/qpkorr/vim-bufkill
