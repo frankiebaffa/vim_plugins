@@ -80,6 +80,7 @@
 [submodule "coc-extensions/start/coc-powershell"]
 	path = coc-extensions/start/coc-powershell
 	url = https://github.com/coc-extensions/coc-powershell
+	branch = 0.1.4
 [submodule "fannheyward/start/coc-texlab"]
 	path = fannheyward/start/coc-texlab
 	url = https://github.com/fannheyward/coc-texlab
