@@ -104,3 +104,6 @@
 [submodule "vim-airline-themes/start/vim-airline-themes"]
 	path = vim-airline-themes/start/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes
+[submodule "jeffkreeftmeijer/start/vim-dim"]
+	path = jeffkreeftmeijer/start/vim-dim
+	url = https://github.com/jeffkreeftmeijer/vim-dim
