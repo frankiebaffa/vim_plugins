@@ -7,7 +7,7 @@ PLUGINS_DIR="$SCRIPT_DIR/.."
 cd $PLUGINS_DIR
 echo "Updating submodules"
 # update submodules
-git submodule update --init --recursive --remote &&
+git submodule update --init --recursive &&
 	echo "Complete"
 # return
 cd $CURR_DIR
