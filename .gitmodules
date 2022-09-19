@@ -65,9 +65,6 @@
 [submodule "neoclide/start/coc-json"]
 	path = neoclide/start/coc-json
 	url = https://github.com/neoclide/coc-json
-[submodule "neoclide/start/coc-python"]
-	path = neoclide/start/coc-python
-	url = https://github.com/neoclide/coc-python
 [submodule "neoclide/start/coc-css"]
 	path = neoclide/start/coc-css
 	url = https://github.com/neoclide/coc-css
@@ -107,3 +104,6 @@
 [submodule "vim-airline-themes/start/vim-airline-themes"]
 	path = vim-airline-themes/start/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes
+[submodule "fannheyward/start/coc-pyright"]
+	path = fannheyward/start/coc-pyright
+	url = https://github.com/fannheyward/coc-pyright
