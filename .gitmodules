@@ -104,6 +104,3 @@
 [submodule "vim-airline-themes/start/vim-airline-themes"]
 	path = vim-airline-themes/start/vim-airline-themes
 	url = https://github.com/vim-airline/vim-airline-themes
-[submodule "fannheyward/start/coc-pyright"]
-	path = fannheyward/start/coc-pyright
-	url = https://github.com/fannheyward/coc-pyright
