@@ -6,7 +6,7 @@ css,./neoclide/start/coc-css
 bash,./josa42/start/coc-sh
 html,./neoclide/start/coc-html
 powershell,./coc-extensions/start/coc-powershell
-python,./fannheyward/start/coc-pyright
+python,./pappasam/start/coc-jedi
 latex,./fannheyward/start/coc-texlab
 dadbod,./kristijanhusak/start/vim-dadbod-completion
 json,./neoclide/start/coc-json
