@@ -107,6 +107,3 @@
 [submodule "pappasam/start/coc-jedi"]
 	path = pappasam/start/coc-jedi
 	url = https://github.com/pappasam/coc-jedi
-[submodule "morhetz/start/gruvbox"]
-	path = morhetz/start/gruvbox
-	url = https://github.com/morhetz/gruvbox
