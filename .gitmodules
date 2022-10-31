@@ -107,3 +107,6 @@
 [submodule "pappasam/start/coc-jedi"]
 	path = pappasam/start/coc-jedi
 	url = https://github.com/pappasam/coc-jedi
+[submodule "altercation/start/vim-colors-solarized"]
+	path = altercation/start/vim-colors-solarized
+	url = https://github.com/altercation/vim-colors-solarized
