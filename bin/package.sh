@@ -79,7 +79,6 @@ for LINE in ${LINE_ARR[@]}; do
 			if [ "$COMMAND" == "${COMMANDS[1]}" ]; then # install
 				if [ "$IS_LSP" == "0" ]; then
 					echo "$SHORT_NAME is not a language server, nothing to install"
-					exit 4
 				fi
 				echo "Installing $SHORT_NAME: $PLUGIN_PATH"
 				cd "$PLUGIN_PATH" &&
