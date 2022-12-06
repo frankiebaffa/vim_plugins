@@ -10,7 +10,7 @@ josa42,bash,coc-sh,1,v0.7.0
 kristijanhusak,dadbod-completion,vim-dadbod-completion,1,339667d
 kristijanhusak,dadbod-ui,vim-dadbod-ui,0,7bd114b
 liuchenxu,graphviz,graphviz.vim,0,12b04c5
-neoclide,coc,coc.nvim,1,v0.0.81
+neoclide,coc,coc.nvim,1,v0.0.82
 neoclide,vimscript,coc-neco,1,fe130c2
 neoclide,typescript,coc-tsserver,1,1.11.12
 neoclide,css,coc-css,1,2.0.0
