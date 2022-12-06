@@ -10,7 +10,7 @@ SCRIPT_DIR=$(cd $(dirname "${BASH_SOURCE[0]}") && pwd)
 # mark root directory of plugins
 PLUGINS_DIR="$SCRIPT_DIR/.."
 # get csv
-PACKAGE_CSV="$PLUGINS_DIR/submodules.csv"
+PACKAGE_CSV="$PLUGINS_DIR/plugins.csv"
 # parse command
 if [ -z "$1" ]; then
 	echo "$TITLE_LINE"
