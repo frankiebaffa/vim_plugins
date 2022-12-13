@@ -29,12 +29,6 @@
 [submodule "wannesm/start/wmgraphviz.vim"]
 	path = wannesm/start/wmgraphviz.vim
 	url = https://github.com/wannesm/wmgraphviz.vim
-[submodule "frankiebaffa/start/Vim-Folddiff"]
-	path = frankiebaffa/start/Vim-Folddiff
-	url = https://github.com/frankiebaffa/Vim-Folddiff
-[submodule "frankiebaffa/start/vim-tasks"]
-	path = frankiebaffa/start/vim-tasks
-	url = https://github.com/frankiebaffa/vim-tasks
 [submodule "junegunn/start/fzf"]
 	path = junegunn/start/fzf
 	url = https://github.com/junegunn/fzf
