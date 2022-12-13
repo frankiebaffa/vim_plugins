@@ -2,7 +2,12 @@
 VERSION="v0.0.1"
 NAME="vim-packages"
 TITLE_LINE="$NAME ($VERSION)"
-COMMANDS=("list" "install" "update" "init")
+COMMANDS=("list" "install" "update" "init" "add")
+LIST_CMD="${COMMANDS[0]}"
+INSTALL_CMD="${COMMANDS[1]}"
+UPDATE_CMD="${COMMANDS[2]}"
+INIT_CMD="${COMMANDS[3]}"
+ADD_CMD="${COMMANDS[4]}"
 # get current directory
 CURR_DIR=$(pwd)
 # get script directory
@@ -34,13 +39,117 @@ if ! [[ "${COMMANDS[@]}" =~ "${COMMAND}" ]]; then
 	exit 2
 fi
 # make sure package is not blank if not list
-if [ "$COMMAND" != "${COMMANDS[0]}" ] && [ -z "$2" ]; then
+if [ "$COMMAND" != "$LIST_CMD" ] && [ -z "$2" ]; then
 	echo "$TITLE_LINE"
 	echo "---"
-	echo "No package defined"
+	if [ "$COMMAND" == "$ADD_CMD" ]; then
+		echo "No git repo defined"
+	else
+		echo "No package defined"
+	fi
 	exit 3
 fi
 TARGET="$2"
+YN_VALS=( "y" "Y" "n" "N" )
+# ADD
+if [ "$COMMAND" == "$ADD_CMD" ]; then
+	if [ -z "$3" ]; then
+		echo "TITLE_LINE"
+		echo "---"
+		echo "No short name defined"
+		exit 4
+	fi
+	SHORT_NAME="$3"
+	if [ -z "$4" ]; then
+		echo "$TITLE_LINE"
+		echo "---"
+		echo "No checkout point defined"
+		exit 5
+	fi
+	CHECKOUT="$4"
+	if [ -z "$5" ] || ! [[ "${YN_VALS[@]}" =~ "${5}" ]]; then
+		echo "$TITLE_LINE"
+		echo "---"
+		echo "Value <IS_LANG_SERV> must be withing (${YN_VALS[@]})"
+		exit 6
+	fi
+	if [ "$5" == "${YN_VALS[0]}" ] || [ "$5" == "${YN_VALS[1]}" ]; then
+		IS_LANG_SERV="1"
+	else
+		IS_LANG_SERV="0"
+	fi
+	IFS='/'; read -ra ITEMS <<< "$TARGET";
+	AUTHOR="${ITEMS[0]}"
+	PACKAGE="${ITEMS[1]}"
+	INSTALL_PATH="$AUTHOR/start/$PACKAGE"
+	if [ -f "$INSTALL_PATH" ]; then
+		echo "Plugin $PACKAGE by $AUTHOR is already installed"
+		exit 7
+	fi
+	echo "Adding new plugin:"
+	echo -e "\tAuthor:  $AUTHOR"
+	echo -e "\tPackage: $PACKAGE"
+	if [ -d "$AUTHOR" ]; then
+		AUTHOR_EXISTS="YES"
+	else
+		AUTHOR_EXISTS=""
+	fi
+	if [ -d "$AUTHOR/start" ]; then
+		START_EXISTS="YES"
+	else
+		START_EXISTS=""
+	fi
+	if ! mkdir -p "$AUTHOR/start"; then
+		exit 8
+	fi
+	GIT_URL="https://github.com/$AUTHOR/$PACKAGE"
+	if ! git submodule add "$GIT_URL" "$INSTALL_PATH"; then
+		echo "Failed to add submodule $GIT_URL"
+		if [ -z "$START_EXISTS" ] && [ -d "$AUTHOR/start" ]; then
+			echo "Removing new directory $AUTHOR/start"
+			rmdir "$AUTHOR/start"
+		fi
+		if [ -z "$AUTHOR_EXISTS" ] && [ -d "$AUTHOR" ]; then
+			echo "Removing new directory $AUTHOR"
+			rmdir "$AUTHOR"
+		fi
+		exit 9
+	fi
+	if ! cd "$INSTALL_PATH"; then
+		echo "Failed to cd into $INSTALL_PATH"
+		exit 10
+	fi
+	if ! git checkout "$CHECKOUT"; then
+		echo "Failed to checkout $CHECKOUT"
+		if ! git rm "$INSTALL_PATH"; then
+			echo "Failed to remove submodule $INSTALL_PATH"
+			exit 11
+		fi
+		exit 12
+	fi
+	if ! cd "$PLUGINS_DIR"; then
+		echo "Failed to cd into $PLUGINS_DIR"
+		exit 13
+	fi
+	if ! git add "$AUTHOR/start/plugin"; then
+		echo "Failed to stage submodule changes"
+		exit 14
+	fi
+	if ! git add "$PACKAGE_CSV"; then
+		echo "Failed to stage $PACKAGE_CSV changes"
+		exit 15
+	fi
+	if ! git commit -m "Added added plugin $PACKAGE by $AUTHOR"; then
+		echo "Failed to commit changes"
+		exit 16
+	fi
+	NEW_LINE="$AUTHOR,$SHORT_NAME,$PACKAGE,$IS_LANG_SERV,$CHECKOUT"
+	if ! echo "$NEW_LINE" >> "$PACKAGE_CSV"; then
+		echo "Failed to append new line to $PACKAGE_CSV"
+		exit 17
+	fi
+	exit 0
+fi
 # parse csv
 cd "$PLUGINS_DIR"
 LINES="$(cat "$PACKAGE_CSV")"
@@ -71,26 +180,29 @@ for LINE in ${LINE_ARR[@]}; do
 	IS_LSP="${SUB_ARR[3]}"
 	CHECKOUT_POINT="${SUB_ARR[4]}"
 	PLUGIN_PATH="$PLUGINS_DIR/$AUTHOR/start/$FULL_NAME"
-	if [ "$COMMAND" == "${COMMANDS[0]}" ]; then # list
+	if [ "$COMMAND" == "$LIST_CMD" ]; then # list
 		echo "$SHORT_NAME: $PLUGIN_PATH";
 	else
 		# processing complete, perform installation tasks
 		if [ "$TARGET" == "$SHORT_NAME" ] || [ "$TARGET" == "$FULL_NAME" ] || [ "$TARGET" == "all" ]; then
-			if [ "$COMMAND" == "${COMMANDS[1]}" ]; then # install
+			# INSTALL
+			if [ "$COMMAND" == "$INSTALL_CMD" ]; then
 				if [ "$IS_LSP" == "0" ]; then
 					echo "$SHORT_NAME is not a language server, nothing to install"
-					exit 4
+					exit 0 # not an error
 				fi
 				echo "Installing $SHORT_NAME: $PLUGIN_PATH"
 				cd "$PLUGIN_PATH" &&
 					yarn install --frozen-lockfile &&
 					cd "$PLUGINS_DIR"
-			elif [ "$COMMAND" == "${COMMANDS[2]}" ]; then # update
+			# UPDATE
+			elif [ "$COMMAND" == "$UPDATE_CMD" ]; then
 				echo "Updating $SHORT_NAME: $PLUGIN_PATH"
 				cd "$PLUGIN_PATH" &&
 					git checkout "$CHECKOUT_POINT" &&
 					cd "$PLUGINS_DIR"
-			elif [ "$COMMAND" == "${COMMANDS[3]}" ]; then # init
+			# INIT
+			elif [ "$COMMAND" == "$INIT_CMD" ]; then
 				echo "Initializing $SHORT_NAME: $PLUGIN_PATH"
 				git submodule update --init "$PLUGIN_PATH"
 			fi
