@@ -2,13 +2,14 @@
 VERSION="v0.0.1"
 NAME="vim-packages"
 TITLE_LINE="$NAME ($VERSION)"
-COMMANDS=( "list" "install" "update" "init" "add" "rm" )
+COMMANDS=( "list" "install" "update" "init" "add" "rm" "clean" )
 LIST_CMD="${COMMANDS[0]}"
 INSTALL_CMD="${COMMANDS[1]}"
 UPDATE_CMD="${COMMANDS[2]}"
 INIT_CMD="${COMMANDS[3]}"
 ADD_CMD="${COMMANDS[4]}"
 RM_CMD="${COMMANDS[5]}"
+CLEAN_CMD="${COMMANDS[6]}"
 # get current directory
 CURR_DIR=$(pwd)
 # get script directory
@@ -40,8 +41,9 @@ if ! [[ "${COMMANDS[@]}" =~ "${COMMAND}" ]]; then
 	done
 	exit 2
 fi
-# make sure package is not blank if not list
-if [ "$COMMAND" != "$LIST_CMD" ] && [ -z "$2" ]; then
+PACKAGELESS_CMDS=( "$LIST_CMD" "$CLEAN_CMD" )
+# make sure package is not blank if not list or clean
+if ! [[ "${PACKAGELESS_CMDS[@]}" =~ "${COMMAND}" ]] && [ -z "$2" ]; then
 	echo "$TITLE_LINE"
 	echo "---"
 	if [ "$COMMAND" == "$ADD_CMD" ]; then
@@ -148,25 +150,63 @@ elif [ "$COMMAND" == "$RM_CMD" ]; then
 	IFS='/'; read -ra ITEMS <<< "$TARGET";
 	AUTHOR="${ITEMS[0]}"
 	PACKAGE="${ITEMS[1]}"
+	if ! grep -q "^$AUTHOR,$PACKAGE" "$PACKAGE_CSV"; then
+		echo "$TITLE_LINE"
+		echo "---"
+		echo "Package $AUTHOR/$PACKAGE does not exist in plugins"
+		exit 18
+	fi
 	INSTALL_PATH="$AUTHOR/start/$PACKAGE"
 	if ! git rm "$INSTALL_PATH"; then
 		echo "Failed to remove submodule"
-		exit 18
+		exit 19
 	fi
 	if ! sed -i "/$AUTHOR,$PACKAGE,.*/d" "$PACKAGE_CSV"; then
 		echo "Failed to remove line from $PACKAGE_CSV"
-		exit 19
+		exit 20
 	fi
 	if ! git add "$PACKAGE_CSV"; then
 		echo "Failed to stage changes to $PACKAGE_CSV"
-		exit 20
+		exit 21
 	fi
 	if ! git commit -m "Removed $PACKAGE by $AUTHOR"; then
 		echo "Failed to commit removal"
-		exit 21
+		exit 22
 	fi
 	exit 0
 fi
+#if [ "$COMMAND" == "$CLEAN_CMD" ]; then
+#	if [ -z "$2" ]; then
+#		FORCE="0"
+#	elif [ "$2" == "-f" ] || [ "$2" == "--force" ]; then
+#		FORCE="1"
+#	fi
+#	IGNORE=( "bin" "utils" "node_modules" )
+#	exit 0
+#	for DIR in */; do
+#		DIR=${DIR%*/} # remove trailing slash
+#		if [[ "${IGNORE[@]}" =~ "${DIR}" ]]; then
+#			echo "Directory $DIR is ignored"
+#			continue
+#		fi
+#		if [ -z "$(ls -A "$DIR/start")" ]; then
+#			echo "Removing $DIR/start bc it is empty"
+#			if ! rmdir "$DIR/start"; then
+#				echo "Failed to delete directory $DIR/start"
+#				exit 23
+#			fi
+#			if [ -z "$(ls -A "$DIR")" ]; then
+#				echo "Removing $DIR bc it is empty"
+#				if ! rmdir "$DIR"; then
+#					echo "Failed to delete directory $DIR"
+#					exit 24
+#				fi
+#			fi
+#			continue
+#		fi
+#	done
+#	exit 0
+#fi
 # parse csv
 cd "$PLUGINS_DIR"
 LINES="$(cat "$PACKAGE_CSV")"
@@ -196,10 +236,10 @@ for LINE in ${LINE_ARR[@]}; do
 	IS_LSP="${SUB_ARR[2]}"
 	CHECKOUT_POINT="${SUB_ARR[3]}"
 	PLUGIN_PATH="$PLUGINS_DIR/$AUTHOR/start/$FULL_NAME"
-	if [ "$COMMAND" == "$LIST_CMD" ]; then # list
+	if [ "$COMMAND" == "$LIST_CMD" ]; then
 		echo "$FULL_NAME: $PLUGIN_PATH";
 	else
-		# processing complete, perform installation tasks
+		# processing complete, perform command
 		if [ "$TARGET" == "$FULL_NAME" ] || [ "$TARGET" == "all" ]; then
 			# INSTALL
 			if [ "$COMMAND" == "$INSTALL_CMD" ]; then
