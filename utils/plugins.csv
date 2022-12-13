@@ -32,3 +32,4 @@ vim-airline-themes,airline-themes,vim-airline-themes,0,97cf3e6
 vim-scripts,parse-json,ParseJSON,0,ad03fa5
 voldikss,floaterm,vim-floaterm,0,e3f2d94
 wannesm,wmgraphviz,wmgraphviz.vim,0,f08ff5b
+preservim,nerdtree,nerdtree,0,6.10.16
