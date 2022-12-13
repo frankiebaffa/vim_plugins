@@ -113,6 +113,3 @@
 [submodule "preservim/start/nerdtree"]
 	path = preservim/start/nerdtree
 	url = https://github.com/preservim/nerdtree
-[submodule "scrooloose/start/nerdtree-project-plugin"]
-	path = scrooloose/start/nerdtree-project-plugin
-	url = https://github.com/scrooloose/nerdtree-project-plugin
