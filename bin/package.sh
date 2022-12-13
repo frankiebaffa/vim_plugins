@@ -2,12 +2,13 @@
 VERSION="v0.0.1"
 NAME="vim-packages"
 TITLE_LINE="$NAME ($VERSION)"
-COMMANDS=("list" "install" "update" "init" "add")
+COMMANDS=( "list" "install" "update" "init" "add" "rm" )
 LIST_CMD="${COMMANDS[0]}"
 INSTALL_CMD="${COMMANDS[1]}"
 UPDATE_CMD="${COMMANDS[2]}"
 INIT_CMD="${COMMANDS[3]}"
 ADD_CMD="${COMMANDS[4]}"
+RM_CMD="${COMMANDS[5]}"
 # get current directory
 CURR_DIR=$(pwd)
 # get script directory
@@ -28,6 +29,7 @@ if [ -z "$1" ]; then
 	exit 1
 fi
 COMMAND="$1"
+# validate command
 if ! [[ "${COMMANDS[@]}" =~ "${COMMAND}" ]]; then
 	echo "$TITLE_LINE"
 	echo "---"
@@ -43,7 +45,7 @@ if [ "$COMMAND" != "$LIST_CMD" ] && [ -z "$2" ]; then
 	echo "$TITLE_LINE"
 	echo "---"
 	if [ "$COMMAND" == "$ADD_CMD" ]; then
-		echo "No git repo defined"
+		echo "No git repo defined (author/package)"
 	else
 		echo "No package defined"
 	fi
@@ -54,26 +56,19 @@ YN_VALS=( "y" "Y" "n" "N" )
 # ADD
 if [ "$COMMAND" == "$ADD_CMD" ]; then
 	if [ -z "$3" ]; then
-		echo "TITLE_LINE"
-		echo "---"
-		echo "No short name defined"
-		exit 4
-	fi
-	SHORT_NAME="$3"
-	if [ -z "$4" ]; then
 		echo "$TITLE_LINE"
 		echo "---"
 		echo "No checkout point defined"
 		exit 5
 	fi
-	CHECKOUT="$4"
-	if [ -z "$5" ] || ! [[ "${YN_VALS[@]}" =~ "${5}" ]]; then
+	CHECKOUT="$3"
+	if [ -z "$4" ] || ! [[ "${YN_VALS[@]}" =~ "${4}" ]]; then
 		echo "$TITLE_LINE"
 		echo "---"
 		echo "Value <IS_LANG_SERV> must be withing (${YN_VALS[@]})"
 		exit 6
 	fi
-	if [ "$5" == "${YN_VALS[0]}" ] || [ "$5" == "${YN_VALS[1]}" ]; then
+	if [ "$4" == "${YN_VALS[0]}" ] || [ "$4" == "${YN_VALS[1]}" ]; then
 		IS_LANG_SERV="1"
 	else
 		IS_LANG_SERV="0"
@@ -143,10 +138,32 @@ if [ "$COMMAND" == "$ADD_CMD" ]; then
 		echo "Failed to commit changes"
 		exit 16
 	fi
-	NEW_LINE="$AUTHOR,$SHORT_NAME,$PACKAGE,$IS_LANG_SERV,$CHECKOUT"
+	NEW_LINE="$AUTHOR,$PACKAGE,$IS_LANG_SERV,$CHECKOUT"
 	if ! echo "$NEW_LINE" >> "$PACKAGE_CSV"; then
 		echo "Failed to append new line to $PACKAGE_CSV"
 		exit 17
+	fi
+	exit 0
+elif [ "$COMMAND" == "$RM_CMD" ]; then
+	IFS='/'; read -ra ITEMS <<< "$TARGET";
+	AUTHOR="${ITEMS[0]}"
+	PACKAGE="${ITEMS[1]}"
+	INSTALL_PATH="$AUTHOR/start/$PACKAGE"
+	if ! git rm "$INSTALL_PATH"; then
+		echo "Failed to remove submodule"
+		exit 18
+	fi
+	if ! sed -i "/$AUTHOR,$PACKAGE,.*/d" "$PACKAGE_CSV"; then
+		echo "Failed to remove line from $PACKAGE_CSV"
+		exit 19
+	fi
+	if ! git add "$PACKAGE_CSV"; then
+		echo "Failed to stage changes to $PACKAGE_CSV"
+		exit 20
+	fi
+	if ! git commit -m "Removed $PACKAGE by $AUTHOR"; then
+		echo "Failed to commit removal"
+		exit 21
 	fi
 	exit 0
 fi
@@ -175,35 +192,34 @@ for LINE in ${LINE_ARR[@]}; do
 		LINE=${LINE#*"$COMMA"}
 	done
 	AUTHOR="${SUB_ARR[0]}"
-	SHORT_NAME="${SUB_ARR[1]}"
-	FULL_NAME="${SUB_ARR[2]}"
-	IS_LSP="${SUB_ARR[3]}"
-	CHECKOUT_POINT="${SUB_ARR[4]}"
+	FULL_NAME="${SUB_ARR[1]}"
+	IS_LSP="${SUB_ARR[2]}"
+	CHECKOUT_POINT="${SUB_ARR[3]}"
 	PLUGIN_PATH="$PLUGINS_DIR/$AUTHOR/start/$FULL_NAME"
 	if [ "$COMMAND" == "$LIST_CMD" ]; then # list
-		echo "$SHORT_NAME: $PLUGIN_PATH";
+		echo "$FULL_NAME: $PLUGIN_PATH";
 	else
 		# processing complete, perform installation tasks
-		if [ "$TARGET" == "$SHORT_NAME" ] || [ "$TARGET" == "$FULL_NAME" ] || [ "$TARGET" == "all" ]; then
+		if [ "$TARGET" == "$FULL_NAME" ] || [ "$TARGET" == "all" ]; then
 			# INSTALL
 			if [ "$COMMAND" == "$INSTALL_CMD" ]; then
 				if [ "$IS_LSP" == "0" ]; then
-					echo "$SHORT_NAME is not a language server, nothing to install"
+					echo "$FULL_NAME is not a language server, nothing to install"
 					exit 0 # not an error
 				fi
-				echo "Installing $SHORT_NAME: $PLUGIN_PATH"
+				echo "Installing $FULL_NAME: $PLUGIN_PATH"
 				cd "$PLUGIN_PATH" &&
 					yarn install --frozen-lockfile &&
 					cd "$PLUGINS_DIR"
 			# UPDATE
 			elif [ "$COMMAND" == "$UPDATE_CMD" ]; then
-				echo "Updating $SHORT_NAME: $PLUGIN_PATH"
+				echo "Updating $FULL_NAME: $PLUGIN_PATH"
 				cd "$PLUGIN_PATH" &&
 					git checkout "$CHECKOUT_POINT" &&
 					cd "$PLUGINS_DIR"
 			# INIT
 			elif [ "$COMMAND" == "$INIT_CMD" ]; then
-				echo "Initializing $SHORT_NAME: $PLUGIN_PATH"
+				echo "Initializing $FULL_NAME: $PLUGIN_PATH"
 				git submodule update --init "$PLUGIN_PATH"
 			fi
 		fi
