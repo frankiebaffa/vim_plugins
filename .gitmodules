@@ -110,3 +110,6 @@
 [submodule "altercation/start/vim-colors-solarized"]
 	path = altercation/start/vim-colors-solarized
 	url = https://github.com/altercation/vim-colors-solarized
+[submodule "preservim/start/nerdtree"]
+	path = preservim/start/nerdtree
+	url = https://github.com/preservim/nerdtree
