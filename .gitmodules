@@ -47,9 +47,6 @@
 [submodule "vim-scripts/start/ParseJSON"]
 	path = vim-scripts/start/ParseJSON
 	url = https://github.com/vim-scripts/ParseJSON
-[submodule "voldikss/start/vim-floaterm"]
-	path = voldikss/start/vim-floaterm
-	url = https://github.com/voldikss/vim-floaterm
 [submodule "neoclide/start/coc-tsserver"]
 	path = neoclide/start/coc-tsserver
 	url = https://github.com/neoclide/coc-tsserver
