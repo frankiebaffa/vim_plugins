@@ -113,6 +113,3 @@
 [submodule "preservim/start/nerdtree"]
 	path = preservim/start/nerdtree
 	url = https://github.com/preservim/nerdtree
-[submodule "tc50cal/start/vim-terminal"]
-	path = tc50cal/start/vim-terminal
-	url = https://github.com/tc50cal/vim-terminal
