@@ -131,7 +131,7 @@ if [ "$COMMAND" == "$ADD_CMD" ]; then
 		echo "Failed to cd into $PLUGINS_DIR"
 		exit 13
 	fi
-	if ! git add "$AUTHOR/start/plugin"; then
+	if ! git add "$INSTALL_PATH"; then
 		echo "Failed to stage submodule changes"
 		exit 14
 	fi
