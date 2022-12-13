@@ -113,9 +113,6 @@
 [submodule "preservim/start/nerdtree"]
 	path = preservim/start/nerdtree
 	url = https://github.com/preservim/nerdtree
-[submodule "ryanoasis/start/vim-devicons"]
-	path = ryanoasis/start/vim-devicons
-	url = https://github.com/ryanoasis/vim-devicons
 [submodule "scrooloose/start/nerdtree-project-plugin"]
 	path = scrooloose/start/nerdtree-project-plugin
 	url = https://github.com/scrooloose/nerdtree-project-plugin
