@@ -116,3 +116,6 @@
 [submodule "ryanoasis/start/vim-devicons"]
 	path = ryanoasis/start/vim-devicons
 	url = https://github.com/ryanoasis/vim-devicons
+[submodule "scrooloose/start/nerdtree-project-plugin"]
+	path = scrooloose/start/nerdtree-project-plugin
+	url = https://github.com/scrooloose/nerdtree-project-plugin
