@@ -6,7 +6,7 @@ function title-line() {
 	echo "$TITLE_LINE"
 	echo "---"
 }
-COMMANDS=( "list" "install" "update" "init" "add" "rm" "clean" )
+COMMANDS=( "list" "install" "update" "init" "add" "rm" "clean" "info" )
 LIST_CMD="${COMMANDS[0]}"
 INSTALL_CMD="${COMMANDS[1]}"
 UPDATE_CMD="${COMMANDS[2]}"
@@ -14,6 +14,7 @@ INIT_CMD="${COMMANDS[3]}"
 ADD_CMD="${COMMANDS[4]}"
 RM_CMD="${COMMANDS[5]}"
 CLEAN_CMD="${COMMANDS[6]}"
+INFO_CMD="${COMMANDS[7]}"
 # get current directory
 CURR_DIR=$(pwd)
 # get script directory
@@ -173,7 +174,9 @@ elif [ "$COMMAND" == "$RM_CMD" ]; then
 	fi
 	exit 0
 fi
-#if [ "$COMMAND" == "$CLEAN_CMD" ]; then
+if [ "$COMMAND" == "$CLEAN_CMD" ]; then
+	title-line
+	echo "Clean command not yet implemented"
 #	if [ -z "$2" ]; then
 #		FORCE="0"
 #	elif [ "$2" == "-f" ] || [ "$2" == "--force" ]; then
@@ -204,7 +207,7 @@ fi
 #		fi
 #	done
 #	exit 0
-#fi
+fi
 # parse csv
 cd "$PLUGINS_DIR"
 LINES="$(cat "$PACKAGE_CSV")"
@@ -233,6 +236,8 @@ for LINE in ${LINE_ARR[@]}; do
 	FULL_NAME="${SUB_ARR[1]}"
 	IS_LSP="${SUB_ARR[2]}"
 	CHECKOUT_POINT="${SUB_ARR[3]}"
+	NOTES="${SUB_ARR[4]}"
+	NOTES="$(echo "$NOTES" | tr "_" " ")"
 	SHORT_PATH="$AUTHOR/start/$FULL_NAME"
 	PLUGIN_PATH="$PLUGINS_DIR/$SHORT_PATH"
 	if [ "$COMMAND" == "$LIST_CMD" ]; then
@@ -249,18 +254,38 @@ for LINE in ${LINE_ARR[@]}; do
 				echo "Installing $FULL_NAME: $PLUGIN_PATH"
 				cd "$PLUGIN_PATH" &&
 					yarn install --frozen-lockfile &&
-					cd "$PLUGINS_DIR"
+					cd "$PLUGINS_DIR" &&
+					echo "Installed $FULL_NAME"
+					exit 0
 			# UPDATE
 			elif [ "$COMMAND" == "$UPDATE_CMD" ]; then
 				echo "Updating $FULL_NAME: $PLUGIN_PATH"
 				cd "$PLUGIN_PATH" &&
 					git checkout "$CHECKOUT_POINT" &&
-					cd "$PLUGINS_DIR"
+					cd "$PLUGINS_DIR" &&
+					echo "Updated $FULL_NAME" &&
+					exit 0
 			# INIT
 			elif [ "$COMMAND" == "$INIT_CMD" ]; then
 				echo "Initializing $FULL_NAME: $PLUGIN_PATH"
-				git submodule update --init "$PLUGIN_PATH"
+				git submodule update --init "$PLUGIN_PATH" &&
+					echo "Initialized $FULL_NAME" &&
+					exit 0
+			# INFO
+			elif [ "$COMMAND" == "$INFO_CMD" ]; then
+				if [ ! -z "$NOTES" ]; then
+					title-line
+					echo "$FULL_NAME: $NOTES"
+					exit 0
+				else
+					title-line
+					echo "$FULL_NAME: Plugin exists with no info"
+					exit 0
+				fi
 			fi
 		fi
 	fi
 done
+title-line
+echo "$TARGET did not match an existing plugin"
+exit 99 # last exit code
