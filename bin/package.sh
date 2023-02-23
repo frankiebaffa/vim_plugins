@@ -1,7 +1,11 @@
 #!/bin/bash
-VERSION="v0.0.1"
-NAME="vim-packages"
-TITLE_LINE="$NAME ($VERSION)"
+function title-line() {
+	NAME="vim-packages"
+	VERSION="v0.0.1"
+	TITLE_LINE="$NAME ($VERSION)"
+	echo "$TITLE_LINE"
+	echo "---"
+}
 COMMANDS=( "list" "install" "update" "init" "add" "rm" "clean" )
 LIST_CMD="${COMMANDS[0]}"
 INSTALL_CMD="${COMMANDS[1]}"
@@ -20,8 +24,7 @@ PLUGINS_DIR="$SCRIPT_DIR/.."
 PACKAGE_CSV="$PLUGINS_DIR/utils/plugins.csv"
 # parse command
 if [ -z "$1" ]; then
-	echo "$TITLE_LINE"
-	echo "---"
+	title-line
 	echo "No command defined"
 	echo "Available commands:"
 	for CMD in "${COMMANDS[@]}"; do
@@ -32,8 +35,7 @@ fi
 COMMAND="$1"
 # validate command
 if ! [[ "${COMMANDS[@]}" =~ "${COMMAND}" ]]; then
-	echo "$TITLE_LINE"
-	echo "---"
+	title-line
 	echo "Invalid command"
 	echo "Available commands:"
 	for CMD in "${COMMANDS[@]}"; do
@@ -44,8 +46,7 @@ fi
 PACKAGELESS_CMDS=( "$LIST_CMD" "$CLEAN_CMD" )
 # make sure package is not blank if not list or clean
 if ! [[ "${PACKAGELESS_CMDS[@]}" =~ "${COMMAND}" ]] && [ -z "$2" ]; then
-	echo "$TITLE_LINE"
-	echo "---"
+	title-line
 	if [ "$COMMAND" == "$ADD_CMD" ]; then
 		echo "No git repo defined (author/package)"
 	else
@@ -58,15 +59,13 @@ YN_VALS=( "y" "Y" "n" "N" )
 # ADD
 if [ "$COMMAND" == "$ADD_CMD" ]; then
 	if [ -z "$3" ]; then
-		echo "$TITLE_LINE"
-		echo "---"
+		title-line
 		echo "No checkout point defined"
 		exit 5
 	fi
 	CHECKOUT="$3"
 	if [ -z "$4" ] || ! [[ "${YN_VALS[@]}" =~ "${4}" ]]; then
-		echo "$TITLE_LINE"
-		echo "---"
+		title-line
 		echo "Value <IS_LANG_SERV> must be withing (${YN_VALS[@]})"
 		exit 6
 	fi
@@ -151,8 +150,7 @@ elif [ "$COMMAND" == "$RM_CMD" ]; then
 	AUTHOR="${ITEMS[0]}"
 	PACKAGE="${ITEMS[1]}"
 	if ! grep -q "^$AUTHOR,$PACKAGE" "$PACKAGE_CSV"; then
-		echo "$TITLE_LINE"
-		echo "---"
+		title-line
 		echo "Package $AUTHOR/$PACKAGE does not exist in plugins"
 		exit 18
 	fi
@@ -235,9 +233,10 @@ for LINE in ${LINE_ARR[@]}; do
 	FULL_NAME="${SUB_ARR[1]}"
 	IS_LSP="${SUB_ARR[2]}"
 	CHECKOUT_POINT="${SUB_ARR[3]}"
-	PLUGIN_PATH="$PLUGINS_DIR/$AUTHOR/start/$FULL_NAME"
+	SHORT_PATH="$AUTHOR/start/$FULL_NAME"
+	PLUGIN_PATH="$PLUGINS_DIR/$SHORT_PATH"
 	if [ "$COMMAND" == "$LIST_CMD" ]; then
-		echo "$FULL_NAME: $PLUGIN_PATH";
+		echo "$FULL_NAME: $SHORT_PATH";
 	else
 		# processing complete, perform command
 		if [ "$TARGET" == "$FULL_NAME" ] || [ "$TARGET" == "all" ]; then
